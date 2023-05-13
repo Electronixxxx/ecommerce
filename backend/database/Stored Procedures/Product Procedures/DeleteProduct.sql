@@ -1,0 +1,6 @@
+CREATE OR ALTER PROCEDURE DeleteProduct
+	@productID INT
+AS
+BEGIN
+	DELETE FROM Products WHERE ProductID = @productID
+END

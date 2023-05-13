@@ -1,0 +1,11 @@
+##Tables
+User
+Products
+
+##User 
+Register/login
+get all
+get one
+update
+delete
+CRUD product

@@ -1,0 +1,12 @@
+CREATE TABLE Users
+(
+    UserID VARCHAR(50) UNIQUE NOT NULL,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    Email VARCHAR(50) UNIQUE NOT NULL,
+    Password VARCHAR(100) NOT NULL,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Address VARCHAR(100),
+    City VARCHAR(50),
+    isDeleted BIT NOT NULL DEFAULT 0
+);

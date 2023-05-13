@@ -1,0 +1,111 @@
+############Users#####################
+##Add user
+POST http://localhost:6900/users/
+Content-Type: application/json
+
+{
+  	"username": "chandler",
+	"password": "chanandlerbong",
+    "email": "chandler@gmail.com",
+    "firstName": "Chandler",
+    "lastName": "Bing",
+    "address": "789 Central Perk Lane",
+    "city": "New York"
+}
+
+### Get all users
+GET  http://localhost:6900/users/
+
+
+### Get user by ID
+GET  http://localhost:6900/users/user?id=f152e539-029d-4d2c-9086-4505c2bb8
+
+### Get user by email
+GET  http://localhost:6900/users/mail?email=chandler@gmail.com
+
+### Update user
+PUT http://localhost:6900/users/1096c55b-ff29-4575-a6da-15ff1cfacdc2
+Content-Type: application/json
+
+{
+	"username": "monicageller",
+	"password": "chanandlerbong",
+    "email": "monica@gmail.com",
+    "firstName": "Monica",
+    "lastName": "Geller",
+    "address": "789 Central Perk Lane",
+    "city": "New York"
+}
+
+### Delete user
+DELETE  http://localhost:6900/users/1096c55b-ff29-4575-a6da-15ff1cfacdc2
+
+############Products##################
+### Create product
+POST http://localhost:6900/products/
+Content-Type: application/json
+
+{
+	"productName": "Product 7",
+    "description": "This is product 7",
+    "longDescription": "A long description for product 7",
+    "price": "7000",
+    "category": "Category 1",
+    "stock": 70,
+    "images":"https://example.com/product7.jpg"
+}
+
+### Get all products
+GET http://localhost:6900/products/
+
+
+
+### Get product by ID
+GET http://localhost:6900/products/product?id=2e1d733e-7865-4bb6-ace9-293cff8dafb9
+
+
+### Get product by name
+GET http://localhost:6900/products/name?productName=Product 5
+
+### Get product by price range
+GET http://localhost:6900/products/range
+Content-Type: application/json
+
+{
+	"min": 2000,
+	"max": 4000
+}
+
+
+### Get products by quantity range
+GET http://localhost:6900/products/stock
+Content-Type: application/json
+
+
+{
+	"min": 20,
+	"max": 30
+}
+
+### Get product by availability
+GET http://localhost:6900/products/iko
+
+### Update product
+PUT http://localhost:6900/products/
+Content-Type: application/json
+
+{
+	"productID": "389bd034-cd40-4895-9def-52056f368a8e",
+	"productName": "Product 6",
+    "description": "This is product 6",
+    "longDescription": "A long description for product 6",
+    "category": "Category 1",
+    "price": "6000",
+    "stock": 60,
+    "images":"https://example.com/product6.jpg"
+}
+
+
+### Delete product
+DELETE http://localhost:6900/products/389bd034-cd40-4895-9def-52056f368a8e
+Content-Type: application/json

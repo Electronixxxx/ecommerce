@@ -1,0 +1,7 @@
+CREATE OR ALTER PROCEDURE GetAvailableProducts
+AS
+BEGIN
+	SELECT *
+	FROM Products
+	WHERE Stock > 0
+END

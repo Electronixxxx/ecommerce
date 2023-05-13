@@ -1,0 +1,11 @@
+CREATE TABLE Products (
+  ProductID VARCHAR(50) NOT NULL UNIQUE,
+  ProductName VARCHAR(50) NOT NULL UNIQUE,
+  Description VARCHAR(255) NOT NULL,
+  LongDescription VARCHAR(500) NULL,
+  Price INT NOT NULL,
+  Category VARCHAR(50) NOT NULL,
+  Stock INT NULL,
+  Images VARCHAR(255) NULL,
+  PRIMARY KEY (ProductID)
+);

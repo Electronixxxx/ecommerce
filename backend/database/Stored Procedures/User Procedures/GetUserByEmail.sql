@@ -1,0 +1,6 @@
+CREATE OR ALTER PROCEDURE GetUserByEmail
+    @email VARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM Users WHERE Email = @email
+END

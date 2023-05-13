@@ -1,0 +1,8 @@
+CREATE OR ALTER PROCEDURE GetProductByID
+	@productID INT
+AS
+BEGIN
+	SELECT *
+	FROM Products
+	WHERE ProductID = @productID
+END
