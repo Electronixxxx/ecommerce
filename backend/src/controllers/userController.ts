@@ -3,6 +3,7 @@ import { sqlConfig } from '../config';
 import mssql from 'mssql';
 import { v4 as uid } from 'uuid';
 import bcrypt from 'bcrypt';
+import { DatabaseHelper } from '../DatabaseHelper';
 
 interface ExtendedRequest extends Request {
     body: User;
@@ -16,8 +17,8 @@ interface User {
     username: string;
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     address: string;
     city: string;
 }
@@ -30,25 +31,23 @@ export const addUser = async (req: ExtendedRequest, res: Response) => {
             username,
             password,
             email,
-            firstName,
-            lastName,
+            first_name,
+            last_name,
             address,
             city,
         } = req.body;
         let hashedPassword = await bcrypt.hash(password, 10);
-        const pool = await mssql.connect(sqlConfig);
-        await pool
-            .request()
-            .input('id', mssql.VarChar, id)
-            .input('username', mssql.VarChar, username)
-            .input('email', mssql.VarChar, email)
-            .input('password', mssql.VarChar, hashedPassword)
-            .input('first_name', mssql.VarChar, firstName)
-            .input('last_name', mssql.VarChar, lastName)
-            .input('address', mssql.VarChar, address)
-            .input('city', mssql.VarChar, city)
-            .execute('RegisterUser');
-        return res.status(200).json({mesage: "User added successfully"});
+        await DatabaseHelper.exec('RegisterUser', {
+            id,
+            username,
+            email,
+            password: hashedPassword,
+            first_name,
+            last_name,
+            address,
+            city,
+        });
+        return res.status(200).json({ mesage: 'User added successfully' });
     } catch (error: any) {
         return res.status(500).json(error.message);
     }
@@ -57,10 +56,11 @@ export const addUser = async (req: ExtendedRequest, res: Response) => {
 //Get all users
 export const getUsers: RequestHandler = async (req, res) => {
     try {
-        const pool = await mssql.connect(sqlConfig);
-        let users: User[] = (await pool.request().execute('GetAllUsers'))
-            .recordset;
-        return res.status(200).json(users);
+        const users = (await DatabaseHelper.exec('GetAllUsers')).recordset;
+        if (users.length > 0) {
+            return res.status(200).json(users);
+        }
+        return res.status(404).json({ message: 'No users registered' });
     } catch (error: any) {
         return res.status(500).json(error.message);
     }
@@ -70,13 +70,8 @@ export const getUsers: RequestHandler = async (req, res) => {
 export const getUserByEmail: RequestHandler = async (req, res) => {
     try {
         const { email } = req.query;
-        console.log(email);
-        const pool = await mssql.connect(sqlConfig);
-
-        let user: User = (
-            await pool.request().input('email', email).execute('GetUserByEmail')
-        ).recordset[0];
-
+        const user = (await DatabaseHelper.exec('GetUserByEmail', { email }))
+            .recordset;
         if (user) {
             return res.status(200).json(user);
         }
@@ -89,14 +84,10 @@ export const getUserByEmail: RequestHandler = async (req, res) => {
 // Get user by ID
 export const getUserByID: RequestHandler = async (req, res) => {
     try {
-        const { id } = req.query;
+        const { UserID } = req.query;
 
-        const pool = await mssql.connect(sqlConfig);
-
-        let user: User = (
-            await pool.request().input('userID', id).execute('GetUserByID')
-        ).recordset[0];
-
+        const user = (await DatabaseHelper.exec('GetUserByID', { UserID }))
+            .recordset;
         if (user) {
             return res.status(200).json(user);
         }
@@ -113,32 +104,29 @@ export const updateUser = async (req: ExtendedRequest, res: Response) => {
             username,
             email,
             password,
-            firstName,
-            lastName,
+            first_name,
+            last_name,
             address,
             city,
         } = req.body;
         let hashedPassword = await bcrypt.hash(password, 10);
         const { id } = req.params;
-        const pool = await mssql.connect(sqlConfig);
-        let user: User = (
-            await pool.request().input('UserID', id).execute('GetUserByID')
-        ).recordset[0];
+        const user = (await DatabaseHelper.exec('GetUserByID', { userID: id }))
+            .recordset[0];
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
         }
 
-        await pool
-            .request()
-            .input('userID', id)
-            .input('username', username)
-            .input('email', email)
-            .input('password', hashedPassword)
-            .input('first_name', firstName)
-            .input('last_name', lastName)
-            .input('address', address)
-            .input('city', city)
-            .execute('UpdateUser');
+        await DatabaseHelper.exec('UpdateUser', {
+            id,
+            username,
+            email,
+            password: hashedPassword,
+            first_name,
+            last_name,
+            address,
+            city,
+        });
         return res.status(200).json({ message: 'User updated sucessfully' });
     } catch (error: any) {
         return res.status(500).json(error.message);
@@ -149,14 +137,11 @@ export const updateUser = async (req: ExtendedRequest, res: Response) => {
 export const deleteUser: RequestHandler = async (req, res) => {
     try {
         const { id } = req.params;
-        const pool = await mssql.connect(sqlConfig);
-        let user: User = (
-            await pool.request().input('UserID', id).execute('GetUserByID')
-        ).recordset[0];
+        const user = (await DatabaseHelper.exec('GetUserByID', {userID:id})).recordset[0]
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
         }
-        await pool.request().input('UserID', id).execute('DeleteUser');
+        await DatabaseHelper.exec('DeleteUser', {UserID: id})
         res.status(200).json({ message: 'User deleted successfuly' });
     } catch (error: any) {
         return res.status(500).json(error.message);

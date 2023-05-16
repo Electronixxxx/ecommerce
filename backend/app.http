@@ -7,8 +7,8 @@ Content-Type: application/json
   	"username": "chandler",
 	"password": "chanandlerbong",
     "email": "chandler@gmail.com",
-    "firstName": "Chandler",
-    "lastName": "Bing",
+    "first_name": "Chandler",
+    "last_name": "Bing",
     "address": "789 Central Perk Lane",
     "city": "New York"
 }
@@ -18,7 +18,7 @@ GET  http://localhost:6900/users/
 
 
 ### Get user by ID
-GET  http://localhost:6900/users/user?id=f152e539-029d-4d2c-9086-4505c2bb8
+GET  http://localhost:6900/users/user?UserID=9a48d3f3-43ee-468d-bf5c-e991a9eb2749
 
 ### Get user by email
 GET  http://localhost:6900/users/mail?email=chandler@gmail.com
@@ -31,14 +31,14 @@ Content-Type: application/json
 	"username": "monicageller",
 	"password": "chanandlerbong",
     "email": "monica@gmail.com",
-    "firstName": "Monica",
-    "lastName": "Geller",
+    "first_name": "Monica",
+    "last_name": "Geller",
     "address": "789 Central Perk Lane",
     "city": "New York"
 }
 
 ### Delete user
-DELETE  http://localhost:6900/users/1096c55b-ff29-4575-a6da-15ff1cfacdc2
+DELETE  http://localhost:6900/users/f152e539-029d-4d2c-9086-4505c2bb8372
 
 ############Products##################
 ### Create product
@@ -46,13 +46,13 @@ POST http://localhost:6900/products/
 Content-Type: application/json
 
 {
-	"productName": "Product 7",
-    "description": "This is product 7",
-    "longDescription": "A long description for product 7",
-    "price": "7000",
+	"productName": "Product 6",
+    "description": "This is product 6",
+    "longDescription": "A long description for product 6",
+    "price": "6000",
     "category": "Category 1",
-    "stock": 70,
-    "images":"https://example.com/product7.jpg"
+    "stock": 60,
+    "images":"https://example.com/product6.jpg"
 }
 
 ### Get all products
@@ -72,8 +72,8 @@ GET http://localhost:6900/products/range
 Content-Type: application/json
 
 {
-	"min": 2000,
-	"max": 4000
+	"minPrice": 2000,
+	"maxPrice": 4000
 }
 
 
@@ -83,8 +83,8 @@ Content-Type: application/json
 
 
 {
-	"min": 20,
-	"max": 30
+	"minQuantity": 20,
+	"maxQuantity": 30
 }
 
 ### Get product by availability
@@ -95,17 +95,17 @@ PUT http://localhost:6900/products/
 Content-Type: application/json
 
 {
-	"productID": "389bd034-cd40-4895-9def-52056f368a8e",
+	"productID": "7fd3b2ab-5cb4-4825-8aaf-08dc5a4ba235",
 	"productName": "Product 6",
     "description": "This is product 6",
     "longDescription": "A long description for product 6",
     "category": "Category 1",
-    "price": "6000",
-    "stock": 60,
+    "price": "6900",
+    "stock": 69,
     "images":"https://example.com/product6.jpg"
 }
 
 
 ### Delete product
-DELETE http://localhost:6900/products/389bd034-cd40-4895-9def-52056f368a8e
+DELETE http://localhost:6900/products/7fd3b2ab-5cb4-4825-8aaf-08dc5a4ba235
 Content-Type: application/json
