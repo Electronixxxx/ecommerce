@@ -5,14 +5,16 @@ import {
     getUserByEmail,
     getUserByID,
     updateUser,
-    deleteUser
+    deleteUser,
 } from '../controllers/userController';
+import { authenticateAdmin } from '../middlewares/authenticateAdmin';
+import { authenticateUser } from '../middlewares/authenticateUser';
 
 export const UserRoutes = Router();
 
-UserRoutes.post('', addUser)
-UserRoutes.get('', getUsers);
-UserRoutes.get('/user', getUserByID);
-UserRoutes.get('/mail', getUserByEmail);
-UserRoutes.put('/:id', updateUser);
-UserRoutes.delete('/:id', deleteUser)
+UserRoutes.post('', addUser);
+UserRoutes.get('', authenticateAdmin, getUsers);
+UserRoutes.get('/user', authenticateAdmin, getUserByID);
+UserRoutes.get('/mail', authenticateAdmin, getUserByEmail);
+UserRoutes.put('/:id', authenticateUser, updateUser);
+UserRoutes.delete('/:id', authenticateAdmin, deleteUser);

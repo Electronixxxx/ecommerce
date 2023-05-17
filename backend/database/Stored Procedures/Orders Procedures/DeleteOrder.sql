@@ -1,0 +1,14 @@
+CREATE OR ALTER PROCEDURE DeleteOrder
+	@OrderID VARCHAR(50)
+AS
+BEGIN
+	BEGIN TRANSACTION;
+
+	DELETE FROM OrderItems
+    WHERE OrderID = @OrderID;
+
+	DELETE FROM Orders
+    WHERE OrderID = @OrderID;
+
+	COMMIT;
+END

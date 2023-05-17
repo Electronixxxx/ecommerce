@@ -1,7 +1,5 @@
 import { Response, Request, RequestHandler } from 'express';
-import mssql from 'mssql';
 import { v4 as uid } from 'uuid';
-import { sqlConfig } from '../config';
 import { DatabaseHelper } from '../DatabaseHelper';
 
 interface Product {

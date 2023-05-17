@@ -1,6 +1,4 @@
 import { Request, RequestHandler, Response } from 'express';
-import { sqlConfig } from '../config';
-import mssql from 'mssql';
 import { v4 as uid } from 'uuid';
 import bcrypt from 'bcrypt';
 import { DatabaseHelper } from '../DatabaseHelper';

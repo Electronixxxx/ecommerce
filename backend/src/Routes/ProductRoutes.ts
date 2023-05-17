@@ -10,15 +10,17 @@ import {
     getProductsByQuantityRange,
     updateProduct,
 } from '../controllers/productControllers';
+import { authenticateAdmin } from '../middlewares/authenticateAdmin';
+import { authenticateUser } from '../middlewares/authenticateUser';
 
 export const ProductRoutes = Router();
 
-ProductRoutes.post('', createProduct);
-ProductRoutes.get('', getAllProducts);
-ProductRoutes.get('/product', getProductByID);
-ProductRoutes.get('/name', getProductByName);
-ProductRoutes.get('/range', getProductsByPriceRange);
-ProductRoutes.get('/stock', getProductsByQuantityRange);
-ProductRoutes.get('/iko', getAvailableProducts);
-ProductRoutes.put('', updateProduct);
-ProductRoutes.delete('/:productID', deleteProduct);
+ProductRoutes.post('', authenticateAdmin, createProduct);
+ProductRoutes.get('', authenticateUser, getAllProducts);
+ProductRoutes.get('/product', authenticateUser, getProductByID);
+ProductRoutes.get('/name', authenticateUser, getProductByName);
+ProductRoutes.get('/range', authenticateUser, getProductsByPriceRange);
+ProductRoutes.get('/stock', authenticateAdmin, getProductsByQuantityRange);
+ProductRoutes.get('/iko', authenticateUser, getAvailableProducts);
+ProductRoutes.put('', authenticateAdmin, updateProduct);
+ProductRoutes.delete('/:productID', authenticateAdmin, deleteProduct);
