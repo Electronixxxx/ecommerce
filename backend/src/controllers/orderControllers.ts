@@ -7,7 +7,7 @@ export const placeOrder: RequestHandler = async (req, res) => {
     const { CustomerID, ShippingAddress, PaymentMethod } = req.body;
     const OrderID = uid();
     try {
-        const authenticatedCustomerID = req.user.customerID;
+        const authenticatedCustomerID = req.body.id;
 
         if (authenticatedCustomerID !== CustomerID) {
             return res.status(401).json({ message: 'Unauthorized access' });

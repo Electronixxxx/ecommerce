@@ -4,10 +4,10 @@ POST http://localhost:6900/users/
 Content-Type: application/json
 
 {
-    "firstName": "Ross",
-    "lastName": "Geller",
-    "email": "ross@gmail.com",
-	"password": "tyranasaurus",
+    "firstName": "Rachel",
+    "lastName": "Green",
+    "email": "wisaki8243@appxapi.com",
+	"password": "a shoe",
     "address": "254 Museum Road"
 }
 
@@ -17,14 +17,14 @@ GET http://localhost:6900/users/login
 Content-Type: application/json
 
 {
-    "email": "chandler@gmail.com",
+    "email": "monica@gmail.com",
     "password": "chanandlerbong"
 }
 
 
 ### Get all users
 GET  http://localhost:6900/users/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1NjQ5YzJlLWE0YmYtNGQyYi1iNTU0LWRjYmVlODEwYTU2ZSIsImVtYWlsIjoiY2hhbmRsZXJAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiYXBwcm92ZWQiOmZhbHNlLCJpYXQiOjE2ODQ0NDMyMzQsImV4cCI6MTY4NDQ0NjgzNH0.MJRXIaVBL9KdPQxnGHmJ-JoGY0qPAsgpUzzLxtPqrZg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1NjQ5YzJlLWE0YmYtNGQyYi1iNTU0LWRjYmVlODEwYTU2ZSIsImVtYWlsIjoiY2hhbmRsZXJAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiZW1haWxTZW50Ijp0cnVlLCJhcHByb3ZlZCI6dHJ1ZSwiaWF0IjoxNjg0NjgxNzkwLCJleHAiOjE2ODQ2ODUzOTB9.CZLup6VkaExgtGIJwdWtnxLNPNL__H-36w_0XsDmQww
 
 
 
@@ -38,15 +38,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1NjQ5YzJlL
 
 
 ### Update user
-PUT http://localhost:6900/users/f27cf748-4e2a-429b-b198-b4d493003e6e
+PUT http://localhost:6900/users/b36d4551-b91a-4e72-ae89-b308deb618c4
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyN2NmNzQ4LTRlMmEtNDI5Yi1iMTk4LWI0ZDQ5MzAwM2U2ZSIsImVtYWlsIjoicm9zc0BnbWFpbC5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJhcHByb3ZlZCI6ZmFsc2UsImlhdCI6MTY4NDQ0MzMxNCwiZXhwIjoxNjg0NDQ2OTE0fQ.RH-weCA5t9qIBsteqAuRuL4iSDdu3kS5i0mrLE3tKWY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNmQ0NTUxLWI5MWEtNGU3Mi1hZTg5LWIzMDhkZWI2MThjNCIsImVtYWlsIjoibW9uaWNhQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImVtYWlsU2VudCI6ZmFsc2UsImFwcHJvdmVkIjpmYWxzZSwiaWF0IjoxNjg0Njg0NTk1LCJleHAiOjE2ODQ2ODgxOTV9.avn1gQ5wW7tF1Nh2F8x9aSBV6Yq_JSqwZyENKeQ8B_o
 
 {
-	"firstName": "Ross",
-    "lastName": "Green",
-    "email": "ross@gmail.com",
-	"password": "we were on a break!",
+	"firstName": "Monica",
+    "lastName": "Geller",
+    "email": "bovaleb515@asuflex.com",
+	"password": "chanandlerbong",
     "address": "254 Museum Road"
 }
 

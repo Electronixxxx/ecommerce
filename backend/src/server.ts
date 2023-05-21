@@ -11,6 +11,10 @@ app.use('/products', ProductRoutes);
 app.use('/cart', CartRoutes);
 app.use('/orders', OrderRoutes);
 
+// process.on('unhandledRejection', () => {
+//     console.log("0opsie Daisy!!");
+// })
+
 app.listen(6900, () => {
     console.log('Server running...');
 });
