@@ -1,76 +1,92 @@
 import { Request, Response } from 'express';
 import { DatabaseHelper } from '../DatabaseHelper';
+import { v4 as uid } from 'uuid';
 
-export const getCart = async (req: Request, res: Response) => {
+// Get Cart Items
+export const getCartItems = async (req: Request, res: Response) => {
     try {
-        const customerID = req.user.customerID;
-        const cartItems = (
-            await DatabaseHelper.exec('GetCartItems', { customerID })
+        const { id } = req.body.user;
+
+        const result = (
+            await DatabaseHelper.exec('GetCartItems', {
+                customerID: id,
+            })
         ).recordset;
-        res.status(200).json(cartItems);
+        if (result.length == 0) {
+            return res.status(404).json({ message: 'Your cart is empty' });
+        }
+        return res.status(200).json(result);
     } catch (error) {
-        console.error('Error retrieving cart:', error);
-        res.status(500).json({ message: 'Error retrieving cart' });
+        console.error('Error getting cart items:', error);
+        res.status(500).json({
+            error: 'An error occurred while retrieving cart items.',
+        });
     }
 };
 
+// Add to Cart
 export const addToCart = async (req: Request, res: Response) => {
-    const CustomerID = req.user.customerID;
-    const { ProductID, Quantity, UnitPrice, TotalPrice } = req.body;
-
     try {
+        const { id } = req.body.user;
+        const itemID = uid();
+        const { productID, quantity, unitPrice, discount } = req.body;
+        const totalPrice = quantity * unitPrice - discount;
+
         await DatabaseHelper.exec('AddToCart', {
-            CustomerID,
-            ProductID,
-            Quantity,
-            UnitPrice,
-            TotalPrice,
+            itemID,
+            customerID: id,
+            productID,
+            quantity,
+            unitPrice,
+            discount,
+            totalPrice,
         });
+
         res.status(200).json({ message: 'Item added to cart successfully.' });
     } catch (error) {
         console.error('Error adding item to cart:', error);
         res.status(500).json({
-            error: 'An error occurred while adding the item to cart.',
+            error: 'An error occurred while adding item to cart.',
         });
     }
 };
 
+// Remove product from Cart
 export const removeFromCart = async (req: Request, res: Response) => {
-    const { CustomerID, ProductID } = req.body;
-
     try {
-        const authenticatedCustomerID = req.user.customerID;
+        const { itemID } = req.body;
+        const { id } = req.body.user;
 
-        if (authenticatedCustomerID !== CustomerID) {
-            return res.status(401).json({ message: 'Unauthorized access' });
-        }
+        await DatabaseHelper.exec('RemoveFromCart', {
+            itemID,
+            CustomerID: id,
+        });
 
-        await DatabaseHelper.exec('RemoveFromCart', { CustomerID, ProductID });
-        return res
-            .status(200)
-            .json({ message: 'Product deleted from the cart successfully' });
+        res.status(200).json({
+            message: 'Item removed from cart successfully.',
+        });
     } catch (error) {
-        console.error('Error:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+        console.error('Error removing item from cart:', error);
+        res.status(500).json({
+            error: 'An error occurred while removing item from cart.',
+        });
     }
 };
 
+// Clear Cart
 export const clearCart = async (req: Request, res: Response) => {
-    const { CustomerID } = req.body;
-
     try {
-        const authenticatedCustomerID = req.user.customerID;
+        const { id } = req.body.user;
 
-        if (authenticatedCustomerID !== CustomerID) {
-            return res.status(401).json({ message: 'Unauthorized access' });
-        }
+        await DatabaseHelper.exec('ClearCart', {
+            customerID: id,
+        });
 
-        await DatabaseHelper.exec('ClearCart', { CustomerID });
-        return res
-            .status(200)
-            .json({ message: 'Product deleted from the cart successfully' });
+        res.status(200).json({ message: 'Cart cleared successfully.' });
     } catch (error) {
-        console.error('Error:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+        console.error('Error clearing cart:', error);
+        res.status(500).json({
+            error: 'An error occurred while clearing cart.',
+        });
     }
 };

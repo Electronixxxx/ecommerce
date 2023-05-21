@@ -1,15 +1,15 @@
 CREATE OR ALTER PROCEDURE UpdateProduct
-	@productID VARCHAR(50),
+	@id VARCHAR(50),
 	@productName VARCHAR(50),
-	@description VARCHAR(255),
-	@longDescription VARCHAR(500),
+	@description VARCHAR(50),
+	@longDescription VARCHAR(250),
+	@unitPrice INT,
+	@discount INT,
 	@category VARCHAR(50),
-	@price DECIMAL(18, 2),
-	@stock INT,
-	@images VARCHAR(255)
+	@stock INT
 AS
 BEGIN
 	UPDATE Products
-    SET ProductName = @productName, Description = @description, LongDescription = @longDescription, Category = @category, Price = @price, Stock = @stock, Images = @images
-    WHERE ProductID = @ProductID
+    SET productName = @productName, description = @description, longDescription = @longDescription, category = @category, unitPrice = @unitPrice, discount = @discount, stock = @stock
+    WHERE id = @id
 END

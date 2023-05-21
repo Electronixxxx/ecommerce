@@ -2,6 +2,7 @@ import { Request, RequestHandler, Response } from 'express';
 import { v4 as uid } from 'uuid';
 import { DatabaseHelper } from '../DatabaseHelper';
 
+// Place Order
 export const placeOrder: RequestHandler = async (req, res) => {
     const { CustomerID, ShippingAddress, PaymentMethod } = req.body;
     const OrderID = uid();
@@ -29,6 +30,7 @@ export const placeOrder: RequestHandler = async (req, res) => {
     }
 };
 
+// Get all Orders
 export const getAllOrders: RequestHandler = async (req, res) => {
     try {
         const orders = (await DatabaseHelper.exec('GetAllOrders')).recordset;
@@ -40,6 +42,7 @@ export const getAllOrders: RequestHandler = async (req, res) => {
     }
 };
 
+// Get Order by ID
 export const getOrderByID: RequestHandler = async (req, res) => {
     const OrderID = req.params.orderId;
 
@@ -57,6 +60,7 @@ export const getOrderByID: RequestHandler = async (req, res) => {
     }
 };
 
+// Update Order
 export const updateOrder: RequestHandler = async (req, res) => {
     const { OrderID } = req.params;
     const { OrderStatus } = req.body;

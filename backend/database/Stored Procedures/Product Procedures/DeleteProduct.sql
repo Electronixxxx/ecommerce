@@ -1,6 +1,6 @@
 CREATE OR ALTER PROCEDURE DeleteProduct
-	@productID INT
+	@id VARCHAR(50)
 AS
 BEGIN
-	DELETE FROM Products WHERE ProductID = @productID
+	DELETE FROM Products WHERE id = @id
 END

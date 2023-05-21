@@ -3,5 +3,5 @@ AS
 BEGIN
 	SELECT *
 	FROM Products
-	WHERE Stock > 0
+	WHERE stock > 0
 END

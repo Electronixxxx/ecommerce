@@ -15,8 +15,8 @@ export const sqlConfig = {
         idleTimeoutMillis: 30000,
     },
     options: {
-        encrypt: true,
-        trustServerCertificate: true,
+        encrypt: false,
+        trustServerCertificate: false,
     },
 };
 

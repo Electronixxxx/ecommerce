@@ -5,5 +5,5 @@ AS
 BEGIN
 	SELECT *
 	FROM Products
-	WHERE Price BETWEEN @minPrice AND @maxPrice
+	WHERE unitPrice BETWEEN @minPrice AND @maxPrice
 END

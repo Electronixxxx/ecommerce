@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { UserRoutes } from './Routes/UserRoutes';
 import { ProductRoutes } from './Routes/ProductRoutes';
 import { CartRoutes } from './Routes/CartRoutes';
@@ -9,7 +9,7 @@ app.use(express.json());
 app.use('/users', UserRoutes);
 app.use('/products', ProductRoutes);
 app.use('/cart', CartRoutes);
-app.use('/orderc', OrderRoutes);
+app.use('/orders', OrderRoutes);
 
 app.listen(6900, () => {
     console.log('Server running...');

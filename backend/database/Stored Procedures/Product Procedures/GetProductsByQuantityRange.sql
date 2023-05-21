@@ -5,5 +5,5 @@ AS
 BEGIN
 	SELECT *
 	FROM Products
-	WHERE Stock BETWEEN @minQuantity AND @maxQuantity
+	WHERE stock BETWEEN @minQuantity AND @maxQuantity
 END

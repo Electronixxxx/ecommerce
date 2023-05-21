@@ -1,24 +1,7 @@
 import { Response, Request, RequestHandler } from 'express';
 import { v4 as uid } from 'uuid';
 import { DatabaseHelper } from '../DatabaseHelper';
-
-interface Product {
-    productID: string;
-    productName: string;
-    description: string;
-    longDescription: string;
-    price: number;
-    category: string;
-    stock: number;
-    images: string;
-}
-
-interface ExtendedRequest extends Request {
-    body: Product;
-    params: {
-        productID: string;
-    };
-}
+import { ExtendedProductRequest, Product } from '../Interfaces/index';
 
 // Create product
 export const createProduct = async (req: Request, res: Response) => {
@@ -27,22 +10,22 @@ export const createProduct = async (req: Request, res: Response) => {
             productName,
             description,
             longDescription,
-            price,
+            unitPrice,
+            discount,
             category,
             stock,
-            images,
         } = req.body;
 
-        const productID = uid();
+        const id = uid();
         await DatabaseHelper.exec('CreateProduct', {
-            productID,
+            id,
             productName,
             description,
             longDescription,
-            price,
+            unitPrice,
+            discount,
             category,
             stock,
-            images,
         });
         return res
             .status(200)
@@ -68,7 +51,7 @@ export const getAllProducts: RequestHandler = async (req, res) => {
 // Get a product by ID
 export const getProductByID: RequestHandler = async (req, res) => {
     try {
-        const { id } = req.query;
+        const { id } = req.query as { id: string };
         const product: Product = await (
             await DatabaseHelper.exec('GetProductByID', { id })
         ).recordset[0];
@@ -84,7 +67,7 @@ export const getProductByID: RequestHandler = async (req, res) => {
 // Get a product by name
 export const getProductByName: RequestHandler = async (req, res) => {
     try {
-        const { productName } = req.query;
+        const { productName } = req.query as { productName: string };
         const product = await (
             await DatabaseHelper.exec('GetProductByName', { productName })
         ).recordset[0];
@@ -138,9 +121,9 @@ export const getProductsByQuantityRange = async (
     }
 };
 
-// Getall available products
+// Get all available products
 export const getAvailableProducts = async (
-    req: ExtendedRequest,
+    req: ExtendedProductRequest,
     res: Response
 ) => {
     try {
@@ -156,35 +139,38 @@ export const getAvailableProducts = async (
 };
 
 // Update a product
-export const updateProduct = async (req: ExtendedRequest, res: Response) => {
+export const updateProduct = async (
+    req: ExtendedProductRequest,
+    res: Response
+) => {
     try {
         const {
-            productID,
+            id,
             productName,
             description,
             longDescription,
-            category,
-            price,
+            unitPrice,
+            discount,
             stock,
-            images,
+            category,
         } = req.body;
 
         const product = await (
-            await DatabaseHelper.exec('GetProductByID', { productID })
+            await DatabaseHelper.exec('GetProductByID', { id })
         ).recordset[0];
 
         if (!product) {
             return res.json({ message: 'Product not found' });
         }
         await DatabaseHelper.exec('UpdateProduct', {
-            productID,
+            id,
             productName,
             description,
             longDescription,
             category,
-            price,
+            unitPrice,
+            discount,
             stock,
-            images,
         });
         return res
             .status(200)
@@ -195,19 +181,22 @@ export const updateProduct = async (req: ExtendedRequest, res: Response) => {
 };
 
 // Delete a product
-export const deleteProduct = async (req: ExtendedRequest, res: Response) => {
+export const deleteProduct = async (
+    req: ExtendedProductRequest,
+    res: Response
+) => {
     try {
-        const { productID } = req.params;
+        const { id } = req.params;
 
         const product = await (
-            await DatabaseHelper.exec('GetProductByID', { productID })
+            await DatabaseHelper.exec('GetProductByID', { id })
         ).recordset[0];
 
         if (!product) {
             return res.json({ message: 'Product not found' });
         }
 
-        await DatabaseHelper.exec('DeleteProduct', { productID });
+        await DatabaseHelper.exec('DeleteProduct', { id });
         return res
             .status(200)
             .json({ message: 'Product deleted successfully' });

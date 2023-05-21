@@ -1,8 +1,8 @@
 CREATE OR ALTER PROCEDURE GetProductByID
-	@productID INT
+	@id VARCHAR(50)
 AS
 BEGIN
 	SELECT *
 	FROM Products
-	WHERE ProductID = @productID
+	WHERE id = @id
 END

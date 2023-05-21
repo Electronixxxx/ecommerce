@@ -1,16 +1,16 @@
 CREATE OR ALTER PROCEDURE CreateProduct
-    @productID VARCHAR(50),
+    @id VARCHAR(50),
     @productName VARCHAR(50),
-    @description VARCHAR(255),
-    @longDescription VARCHAR(500),
-    @Price DECIMAL(18, 2),
+    @description VARCHAR(50),
+    @longDescription VARCHAR(250),
+    @unitPrice INT,
+    @discount INT,
     @category VARCHAR(50),
-    @stock INT,
-    @images VARCHAR(255)
+    @stock INT
 AS
 BEGIN
     INSERT INTO Products
-        (ProductID, ProductName, Description, LongDescription, Price, Category, Stock, Images)
+        (id, productName, description, longDescription, unitPrice, discount, category, stock)
     VALUES
-        (@productID, @productName, @description, @longDescription, @price, @category, @stock, @images)
+        (@id, @productName, @description, @longDescription, @unitPrice, @discount, @category, @stock)
 END

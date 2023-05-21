@@ -1,34 +1,28 @@
-CREATE OR ALTER PROC RegisterUser
+CREATE OR ALTER PROCEDURE RegisterUser
     @id VARCHAR(50),
-    @username VARCHAR(50),
-    @password VARCHAR(100),
+    @firstName VARCHAR(50),
+    @lastName VARCHAR(50),
     @email VARCHAR(50),
-    @first_name VARCHAR(50),
-    @last_name VARCHAR(50),
-    @address VARCHAR(100),
-    @city VARCHAR(50)
+    @password VARCHAR(100),
+    @address VARCHAR(75)
 AS
 BEGIN
     INSERT INTO Users
-        (
+    (
         id,
-        Username,
-        Password,
-        Email,
-        FirstName,
-        LastName,
-        Address,
-        City
-        )
-
+        firstName,
+        lastName,
+        email,
+        password,
+        address
+    )
     VALUES
-        (
-            @id,
-            @username,
-            @password,
-            @email,
-            @first_name,
-            @last_name,
-            @address,
-            @city)
+    (
+        @id,
+        @firstName,
+        @lastName,
+        @email,
+        @password,
+        @address
+    )
 END

@@ -1,18 +1,20 @@
 import { Router } from 'express';
 import {
-    addUser,
     getUsers,
     getUserByEmail,
     getUserByID,
     updateUser,
     deleteUser,
+    loginUser,
+    registerUser,
 } from '../controllers/userController';
 import { authenticateAdmin } from '../middlewares/authenticateAdmin';
 import { authenticateUser } from '../middlewares/authenticateUser';
 
 export const UserRoutes = Router();
 
-UserRoutes.post('', addUser);
+UserRoutes.post('', registerUser);
+UserRoutes.get('/login', loginUser);
 UserRoutes.get('', authenticateAdmin, getUsers);
 UserRoutes.get('/user', authenticateAdmin, getUserByID);
 UserRoutes.get('/mail', authenticateAdmin, getUserByEmail);

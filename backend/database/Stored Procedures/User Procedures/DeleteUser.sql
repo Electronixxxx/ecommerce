@@ -1,6 +1,6 @@
 CREATE OR ALTER PROCEDURE DeleteUser
-    @userID VARCHAR(50)
+    @id VARCHAR(50)
 AS
 BEGIN
-    DELETE FROM Users WHERE UserID = @userID
+    DELETE FROM Users WHERE id = @id
 END

@@ -1,12 +1,13 @@
 CREATE TABLE Users
 (
-    UserID VARCHAR(50) UNIQUE NOT NULL PRIMARY KEY,
-    Username VARCHAR(50) UNIQUE NOT NULL,
-    Email VARCHAR(50) UNIQUE NOT NULL,
-    Password VARCHAR(100) NOT NULL,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Address VARCHAR(100),
-    City VARCHAR(50),
-    isDeleted BIT NOT NULL DEFAULT 0
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    address VARCHAR(75),
+    role VARCHAR(15) DEFAULT 'customer',
+    isDeleted BIT NOT NULL DEFAULT 0,
+    approved BIT NOT NULL DEFAULT 0,
+    emailSent BIT NOT NULL DEFAULT 0
 );

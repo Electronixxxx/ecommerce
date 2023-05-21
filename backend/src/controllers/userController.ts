@@ -1,53 +1,83 @@
 import { Request, RequestHandler, Response } from 'express';
 import { v4 as uid } from 'uuid';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { DatabaseHelper } from '../DatabaseHelper';
-
-interface ExtendedRequest extends Request {
-    body: User;
-    params: {
-        id: string;
-    };
-}
-
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    password: string;
-    first_name: string;
-    last_name: string;
-    address: string;
-    city: string;
-}
+import { User, ExtendedRequest } from '../Interfaces';
 
 //Add new User
-export const addUser = async (req: ExtendedRequest, res: Response) => {
+export const registerUser = async (req: Request, res: Response) => {
     try {
-        let id = uid();
-        const {
-            username,
-            password,
-            email,
-            first_name,
-            last_name,
-            address,
-            city,
-        } = req.body;
-        let hashedPassword = await bcrypt.hash(password, 10);
+        const { firstName, lastName, email, password, address } = req.body;
+        const id = uid();
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         await DatabaseHelper.exec('RegisterUser', {
             id,
-            username,
+            firstName,
+            lastName,
             email,
             password: hashedPassword,
-            first_name,
-            last_name,
             address,
-            city,
         });
-        return res.status(200).json({ mesage: 'User added successfully' });
+
+        const token = jwt.sign(
+            { id, email },
+            process.env.JWT_SECRET as string,
+            { expiresIn: '1h' }
+        );
+        res.status(200).json({
+            message: 'User registered successfully.',
+            token,
+        });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({
+            error: 'An error occurred while registering user.',
+        });
+    }
+};
+
+// Login User
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const { email, password } = req.body;
+
+        let user: User[] = (
+            await DatabaseHelper.exec('getUserByEmail', { email })
+        ).recordset;
+
+        if (!user[0]) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let validUser = await bcrypt.compare(password, user[0].password);
+
+        if (!validUser) {
+            return res
+                .status(404)
+                .json({ message: 'Wrong username or password' });
+        }
+
+        const payload = user.map((u) => {
+            const {
+                password,
+                firstName,
+                lastName,
+                address,
+                isDeleted,
+                ...rest
+            } = u;
+            return rest;
+        });
+
+        const token = jwt.sign(payload[0], process.env.JWT_SECRET as string, {
+            expiresIn: '1h',
+        });
+
+        return res.json({ message: 'Log in successfull', token });
     } catch (error: any) {
-        return res.status(500).json(error.message);
+        return res.status(404).json(error.message);
     }
 };
 
@@ -67,7 +97,7 @@ export const getUsers: RequestHandler = async (req, res) => {
 //Get User By Email
 export const getUserByEmail: RequestHandler = async (req, res) => {
     try {
-        const { email } = req.query;
+        const { email } = req.query as { email: string };
         const user = (await DatabaseHelper.exec('GetUserByEmail', { email }))
             .recordset;
         if (user) {
@@ -82,9 +112,9 @@ export const getUserByEmail: RequestHandler = async (req, res) => {
 // Get user by ID
 export const getUserByID: RequestHandler = async (req, res) => {
     try {
-        const { UserID } = req.query;
+        const { id } = req.query as { id: string };
 
-        const user = (await DatabaseHelper.exec('GetUserByID', { UserID }))
+        const user = (await DatabaseHelper.exec('GetUserByID', { id }))
             .recordset;
         if (user) {
             return res.status(200).json(user);
@@ -98,18 +128,10 @@ export const getUserByID: RequestHandler = async (req, res) => {
 //Update User
 export const updateUser = async (req: ExtendedRequest, res: Response) => {
     try {
-        const {
-            username,
-            email,
-            password,
-            first_name,
-            last_name,
-            address,
-            city,
-        } = req.body;
+        const { firstName, lastName, email, password, address } = req.body;
         let hashedPassword = await bcrypt.hash(password, 10);
         const { id } = req.params;
-        const user = (await DatabaseHelper.exec('GetUserByID', { userID: id }))
+        const user = (await DatabaseHelper.exec('GetUserByID', { id }))
             .recordset[0];
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
@@ -117,29 +139,28 @@ export const updateUser = async (req: ExtendedRequest, res: Response) => {
 
         await DatabaseHelper.exec('UpdateUser', {
             id,
-            username,
             email,
             password: hashedPassword,
-            first_name,
-            last_name,
+            firstName,
+            lastName,
             address,
-            city,
         });
-        return res.status(200).json({ message: 'User updated sucessfully' });
+        return res.status(200).json({ message: 'Details updated sucessfully' });
     } catch (error: any) {
         return res.status(500).json(error.message);
     }
 };
 
 // Delete user
-export const deleteUser: RequestHandler = async (req, res) => {
+export const deleteUser = async (req: ExtendedRequest, res: Response) => {
     try {
         const { id } = req.params;
-        const user = (await DatabaseHelper.exec('GetUserByID', {userID:id})).recordset[0]
+        const user = (await DatabaseHelper.exec('GetUserByID', { id }))
+            .recordset[0];
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
         }
-        await DatabaseHelper.exec('DeleteUser', {UserID: id})
+        await DatabaseHelper.exec('DeleteUser', { id });
         res.status(200).json({ message: 'User deleted successfuly' });
     } catch (error: any) {
         return res.status(500).json(error.message);

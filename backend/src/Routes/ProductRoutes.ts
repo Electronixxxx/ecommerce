@@ -16,11 +16,11 @@ import { authenticateUser } from '../middlewares/authenticateUser';
 export const ProductRoutes = Router();
 
 ProductRoutes.post('', authenticateAdmin, createProduct);
-ProductRoutes.get('', authenticateUser, getAllProducts);
-ProductRoutes.get('/product', authenticateUser, getProductByID);
-ProductRoutes.get('/name', authenticateUser, getProductByName);
-ProductRoutes.get('/range', authenticateUser, getProductsByPriceRange);
+ProductRoutes.get('', getAllProducts);
+ProductRoutes.get('/product', getProductByID);
+ProductRoutes.get('/name', getProductByName);
+ProductRoutes.get('/range', getProductsByPriceRange);
 ProductRoutes.get('/stock', authenticateAdmin, getProductsByQuantityRange);
 ProductRoutes.get('/iko', authenticateUser, getAvailableProducts);
 ProductRoutes.put('', authenticateAdmin, updateProduct);
-ProductRoutes.delete('/:productID', authenticateAdmin, deleteProduct);
+ProductRoutes.delete('/:id', authenticateAdmin, deleteProduct);

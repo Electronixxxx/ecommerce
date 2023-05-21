@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start:build": "tsc -w",
-    "start:run": "nodemon dist/server.js",
+    "start:run": "nodemon ./dist/server.js",
     "start": "concurrently npm:start:*"
   },
   "author": "",
@@ -19,12 +19,15 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mssql": "^9.1.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.1.0",
+    "@types/nodemailer": "^6.4.7",
     "@types/uuid": "^9.0.1"
   }
 }

@@ -1,9 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+
+interface userPayload {
+    id: string;
+    email: string;
+    role: string;
+    approved: boolean;
+    iat: number;
+    exp: number;
+}
 
 export const authenticateUser = (
     req: Request,
@@ -21,11 +31,9 @@ export const authenticateUser = (
         const payload = jwt.verify(
             token,
             process.env.JWT_SECRET as string
-        );
+        ) as userPayload;
 
-        req.user = {
-            customerID: payload.userId,
-        };
+        req.body.user = payload
         next();
     } catch (error) {
         console.error('Error verifying JWT token:', error);
@@ -33,7 +41,7 @@ export const authenticateUser = (
     }
 };
 
-export const encodeUserJWT = (
+export const encodeUser = (
     req: Request,
     res: Response,
     next: NextFunction
@@ -41,13 +49,13 @@ export const encodeUserJWT = (
     const userId = req.body.id;
     const userName = req.body.name;
 
-    const userPayload = {
+    const payload = {
         role: 'user',
         userId,
         userName,
     };
 
-    const token = jwt.sign(userPayload, process.env.JWT_SECRET as string, {
+    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
         expiresIn: '1h',
     });
 
