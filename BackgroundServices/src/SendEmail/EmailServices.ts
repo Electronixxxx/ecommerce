@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -6,7 +7,6 @@ import ejs from 'ejs';
 import { User, MailConfig, MailOptions } from '../Interfaces';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-
 
 let config: MailConfig = {
     host: 'smtp.gmail.com',
@@ -27,32 +27,38 @@ export const sendMail = async (mailOptions: MailOptions) => {
     await transporter.verify();
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log('Error sending welcome email:', error);
+            console.log('Error sending password reset email:', error);
         } else {
-            console.log('Welcome email sent:', info.response);
+            console.log('Password reset email sent:', info.response);
         }
     });
 };
 
 export const sendWelcomeEmail = async (users: User[]) => {
     for (let user of users) {
+        const token = jwt.sign({id:user.id}, process.env.JWT_SECRET as string, {
+            expiresIn: '1h'
+        });
         ejs.renderFile(
             'Templates/welcome.ejs',
-            { name: user.firstName },
+            {
+                name: user.firstName,
+                link: `http://localhost:4002/confirm-email/${token}`,
+            },
             async (error, html) => {
                 if (error) {
-                    return (error)
+                    return error;
                 } else {
                     try {
                         const message = {
                             from: process.env.EMAIL as string,
                             to: user.email as string,
                             subject: 'Welcome to our Site',
-                            html
+                            html,
                         };
                         await sendMail(message);
                         await DatabaseHelper.query(
-                            `UPDATE User SET emailSent ='1' WHERE id ='${user.id}'`
+                            `UPDATE Users SET emailSent ='1' WHERE id ='${user.id}'`
                         );
                     } catch (error) {
                         console.log(error);
@@ -63,4 +69,37 @@ export const sendWelcomeEmail = async (users: User[]) => {
     }
 };
 
-export const sendPasswordResetEmail = async () => {};
+export const sendPasswordResetEmail = async (users: User[]) => {
+    for (let user of users) {
+        const token = jwt.sign({id:user.id}, process.env.JWT_SECRET as string, {
+            expiresIn: '1h'
+        });
+        ejs.renderFile(
+            'Templates/reset.ejs',
+            {
+                name: user.firstName,
+                resetLink: `http://localhost:4002/reset-password/${token}`,
+            },
+            async (error, html) => {
+                if (error) {
+                    return error;
+                } else {
+                    try {
+                        const message = {
+                            from: process.env.EMAIL as string,
+                            to: user.email as string,
+                            subject: 'You requested a password reset',
+                            html,
+                        };
+                        await sendMail(message);
+                        await DatabaseHelper.query(
+                            `UPDATE Users SET passwordResetRequested=0 WHERE id ='${user.id}'`
+                        );
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            }
+        );
+    }
+};

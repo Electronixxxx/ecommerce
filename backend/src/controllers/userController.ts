@@ -51,6 +51,12 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        if (!user[0].approved) {
+            return res
+                .status(401)
+                .json({ message: 'Kindly confirm your email first' });
+        }
+
         let validUser = await bcrypt.compare(password, user[0].password);
 
         if (!validUser) {
@@ -66,6 +72,8 @@ export const loginUser = async (req: Request, res: Response) => {
                 lastName,
                 address,
                 isDeleted,
+                approved,
+                emailSent,
                 ...rest
             } = u;
             return rest;
@@ -149,6 +157,13 @@ export const updateUser = async (req: ExtendedRequest, res: Response) => {
     } catch (error: any) {
         return res.status(500).json(error.message);
     }
+};
+
+// Change Password
+export const changePassword = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    await DatabaseHelper.query(`Update Users SET passwordResetRequested=1 WHERE id='${id}'`)
+    return res.status(200).json({message: "Password reset link sent to email"})
 };
 
 // Delete user

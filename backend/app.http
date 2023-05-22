@@ -4,11 +4,11 @@ POST http://localhost:6900/users/
 Content-Type: application/json
 
 {
-    "firstName": "Rachel",
-    "lastName": "Green",
-    "email": "wisaki8243@appxapi.com",
-	"password": "a shoe",
-    "address": "254 Museum Road"
+    "firstName": "Jeoy",
+    "lastName": "Tribbiani",
+    "email": "siwid70008@andorem.com",
+	"password": "siwid70008@andorem.com",
+    "address": "798 Central Perk"
 }
 
 
@@ -17,8 +17,8 @@ GET http://localhost:6900/users/login
 Content-Type: application/json
 
 {
-    "email": "monica@gmail.com",
-    "password": "chanandlerbong"
+    "email": "siwid70008@andorem.com",
+    "password": "siwid70008@andorem.com"
 }
 
 
@@ -45,10 +45,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNmQ0NTUxL
 {
 	"firstName": "Monica",
     "lastName": "Geller",
-    "email": "bovaleb515@asuflex.com",
+    "email": "siwid70008@andorem.com",
 	"password": "chanandlerbong",
     "address": "254 Museum Road"
 }
+
+### Password reset
+POST http://localhost:6900/users/b36d4551-b91a-4e72-ae89-b308deb618c4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNmQ0NTUxLWI5MWEtNGU3Mi1hZTg5LWIzMDhkZWI2MThjNCIsImVtYWlsIjoibW9uaWNhQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImVtYWlsU2VudCI6ZmFsc2UsImFwcHJvdmVkIjpmYWxzZSwiaWF0IjoxNjg0Njg0NTk1LCJleHAiOjE2ODQ2ODgxOTV9.avn1gQ5wW7tF1Nh2F8x9aSBV6Yq_JSqwZyENKeQ8B_o
 
 ### Delete user
 DELETE  http://localhost:6900/users/f27cf748-4e2a-429b-b198-b4d493003e6e

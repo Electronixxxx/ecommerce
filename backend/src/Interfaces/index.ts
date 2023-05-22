@@ -8,6 +8,8 @@ export interface User {
     password: string;
     address: string;
     isDeleted: boolean;
+    emailSent: boolean;
+    approved: boolean;
 }
 
 export interface ExtendedRequest extends Request {

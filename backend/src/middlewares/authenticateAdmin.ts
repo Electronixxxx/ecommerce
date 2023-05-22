@@ -40,24 +40,3 @@ export const authenticateAdmin = (
             .json({ message: 'Invalid authorization token.' });
     }
 };
-
-export const encodeAdmin = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    const userId = req.body.id;
-    const userName = req.body.name;
-    const payload = {
-        role: 'admin',
-        userId,
-        userName,
-    };
-
-    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-        expiresIn: '1h',
-    });
-
-    res.setHeader('Authorization', token);
-    next();
-};

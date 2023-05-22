@@ -40,25 +40,3 @@ export const authenticateUser = (
         return res.status(403).json({ message: 'Forbidden' });
     }
 };
-
-export const encodeUser = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    const userId = req.body.id;
-    const userName = req.body.name;
-
-    const payload = {
-        role: 'user',
-        userId,
-        userName,
-    };
-
-    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-        expiresIn: '1h',
-    });
-
-    res.setHeader('Authorization', token);
-    next();
-};
