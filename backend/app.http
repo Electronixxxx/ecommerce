@@ -4,10 +4,10 @@ POST http://localhost:6900/users/
 Content-Type: application/json
 
 {
-    "firstName": "Jeoy",
-    "lastName": "Tribbiani",
-    "email": "siwid70008@andorem.com",
-	"password": "siwid70008@andorem.com",
+    "firstName": "dgdgdg",
+    "lastName": "gdgdgdh",
+    "email": "motapax198@farebus.com",
+	"password": "Amazing@2023",
     "address": "798 Central Perk"
 }
 
@@ -17,8 +17,8 @@ GET http://localhost:6900/users/login
 Content-Type: application/json
 
 {
-    "email": "siwid70008@andorem.com",
-    "password": "siwid70008@andorem.com"
+  "email": "motapax198@farebus.com",
+	"password": "Amazing@2023"
 }
 
 
@@ -37,8 +37,16 @@ GET  http://localhost:6900/users/mail?email=chandler@gmail.com
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1NjQ5YzJlLWE0YmYtNGQyYi1iNTU0LWRjYmVlODEwYTU2ZSIsImVtYWlsIjoiY2hhbmRsZXJAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiYXBwcm92ZWQiOmZhbHNlLCJpYXQiOjE2ODQ0MzkwNDYsImV4cCI6MTY4NDQ0MjY0Nn0.RaKod1C_yAsMRYT_hUZgdKb_BTQlxY3BbL2LFqfM2cg 
 
 
+### Password reset
+POST http://localhost:6900/users/b36d4551-b91a-4e72-ae89-b308deb618c4
+Content-Type: application/json
+
+{
+    "email": "motapax198@farebus.com"
+}
+
 ### Update user
-PUT http://localhost:6900/users/b36d4551-b91a-4e72-ae89-b308deb618c4
+PUT http://localhost:6900/users/0355ba85-162c-42f3-9bdd-758237ffb0db
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNmQ0NTUxLWI5MWEtNGU3Mi1hZTg5LWIzMDhkZWI2MThjNCIsImVtYWlsIjoibW9uaWNhQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImVtYWlsU2VudCI6ZmFsc2UsImFwcHJvdmVkIjpmYWxzZSwiaWF0IjoxNjg0Njg0NTk1LCJleHAiOjE2ODQ2ODgxOTV9.avn1gQ5wW7tF1Nh2F8x9aSBV6Yq_JSqwZyENKeQ8B_o
 
@@ -49,11 +57,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNmQ0NTUxL
 	"password": "chanandlerbong",
     "address": "254 Museum Road"
 }
-
-### Password reset
-POST http://localhost:6900/users/b36d4551-b91a-4e72-ae89-b308deb618c4
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNmQ0NTUxLWI5MWEtNGU3Mi1hZTg5LWIzMDhkZWI2MThjNCIsImVtYWlsIjoibW9uaWNhQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImVtYWlsU2VudCI6ZmFsc2UsImFwcHJvdmVkIjpmYWxzZSwiaWF0IjoxNjg0Njg0NTk1LCJleHAiOjE2ODQ2ODgxOTV9.avn1gQ5wW7tF1Nh2F8x9aSBV6Yq_JSqwZyENKeQ8B_o
 
 ### Delete user
 DELETE  http://localhost:6900/users/f27cf748-4e2a-429b-b198-b4d493003e6e

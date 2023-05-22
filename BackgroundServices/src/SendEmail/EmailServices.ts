@@ -22,14 +22,14 @@ const createTransporter = (config: MailConfig) => {
     return nodemailer.createTransport(config);
 };
 
-export const sendMail = async (mailOptions: MailOptions) => {
+export const sendMail = async (mailOptions: MailOptions, purpose: string) => {
     let transporter = createTransporter(config);
     await transporter.verify();
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log('Error sending password reset email:', error);
+            console.log(`Error Sending ${purpose} Email:`, error);
         } else {
-            console.log('Password reset email sent:', info.response);
+            console.log(`${purpose} Email Sent:`, info.response);
         }
     });
 };
@@ -56,7 +56,7 @@ export const sendWelcomeEmail = async (users: User[]) => {
                             subject: 'Welcome to our Site',
                             html,
                         };
-                        await sendMail(message);
+                        await sendMail(message, "Welcome");
                         await DatabaseHelper.query(
                             `UPDATE Users SET emailSent ='1' WHERE id ='${user.id}'`
                         );
@@ -91,7 +91,7 @@ export const sendPasswordResetEmail = async (users: User[]) => {
                             subject: 'You requested a password reset',
                             html,
                         };
-                        await sendMail(message);
+                        await sendMail(message, "Password Reset");
                         await DatabaseHelper.query(
                             `UPDATE Users SET passwordResetRequested=0 WHERE id ='${user.id}'`
                         );

@@ -161,8 +161,8 @@ export const updateUser = async (req: ExtendedRequest, res: Response) => {
 
 // Change Password
 export const changePassword = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    await DatabaseHelper.query(`Update Users SET passwordResetRequested=1 WHERE id='${id}'`)
+    const { email } = req.body;
+    await DatabaseHelper.query(`Update Users SET passwordResetRequested=1 WHERE email='${email}'`)
     return res.status(200).json({message: "Password reset link sent to email"})
 };
 
