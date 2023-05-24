@@ -24,6 +24,6 @@ cron.schedule('*/15 * * * * *', async () => {
     sendPasswordResetEmail(resetPasswordRequests);
 });
 
-app.listen(4002, () => {
+app.listen(8008, () => {
     console.log('App is Running');
 });

@@ -4,9 +4,9 @@ POST http://localhost:6900/users/
 Content-Type: application/json
 
 {
-    "firstName": "dgdgdg",
-    "lastName": "gdgdgdh",
-    "email": "motapax198@farebus.com",
+    "firstName": "David",
+    "lastName": "Goggins",
+    "email": "moneso4974@duscore.com",
 	"password": "Amazing@2023",
     "address": "798 Central Perk"
 }
@@ -42,7 +42,7 @@ POST http://localhost:6900/users/b36d4551-b91a-4e72-ae89-b308deb618c4
 Content-Type: application/json
 
 {
-    "email": "motapax198@farebus.com"
+    "email": "moneso4974@duscore.com"
 }
 
 ### Update user

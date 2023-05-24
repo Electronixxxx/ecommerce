@@ -43,7 +43,7 @@ export const sendWelcomeEmail = async (users: User[]) => {
             'Templates/welcome.ejs',
             {
                 name: user.firstName,
-                link: `http://localhost:4002/confirm-email/${token}`,
+                link: `http://localhost:8008/confirm-email/${token}`,
             },
             async (error, html) => {
                 if (error) {
@@ -78,7 +78,7 @@ export const sendPasswordResetEmail = async (users: User[]) => {
             'Templates/reset.ejs',
             {
                 name: user.firstName,
-                resetLink: `http://localhost:4002/reset-password/${token}`,
+                resetLink: `http://localhost:8008/reset-password/${token}`,
             },
             async (error, html) => {
                 if (error) {
